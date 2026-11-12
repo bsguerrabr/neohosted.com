@@ -5,10 +5,14 @@ const interestRateInput = document.getElementById('interestRate');
 const rateTypeSelect = document.getElementById('rateType');
 const periodInput = document.getElementById('period');
 const periodTypeSelect = document.getElementById('periodType');
+const inflationRateInput = document.getElementById('inflationRate');
+const adjustContributionsInput = document.getElementById('adjustContributions');
 
 const totalInvestedEl = document.getElementById('totalInvested');
 const totalInterestEl = document.getElementById('totalInterest');
 const finalAmountEl = document.getElementById('finalAmount');
+const finalAmountRealEl = document.getElementById('finalAmountReal');
+const finalAmountRealRow = document.getElementById('finalAmountRealRow');
 
 // Chart instance
 let chart = null;
@@ -70,6 +74,11 @@ function calculateCompoundInterest() {
     const period = parseInt(periodInput.value) || 0;
     const rateType = rateTypeSelect.value;
     const periodType = periodTypeSelect.value;
+    const inflation = parseFloat(inflationRateInput.value) || 0;
+    const adjustContributions = adjustContributionsInput.checked;
+
+    const annualInflationFactor = 1 + inflation / 100;
+    const monthlyInflation = Math.pow(annualInflationFactor, 1 / 12) - 1;
 
     // Convert to monthly rate
     let monthlyRate;
@@ -87,16 +96,19 @@ function calculateCompoundInterest() {
     const accumulatedData = [];
     const investedData = [];
     const interestData = [];
+    const realData = [];
 
     let accumulated = initialValue;
+    let invested = initialValue;
 
     for (let month = 0; month <= totalMonths; month++) {
-        const invested = initialValue + (monthlyValue * month);
-
-        if (month === 0) {
-            accumulated = initialValue;
-        } else {
-            accumulated = accumulated * (1 + monthlyRate) + monthlyValue;
+        if (month > 0) {
+            // Contributions are raised once a year when adjusting for inflation
+            const contribution = adjustContributions
+                ? monthlyValue * Math.pow(annualInflationFactor, Math.floor((month - 1) / 12))
+                : monthlyValue;
+            accumulated = accumulated * (1 + monthlyRate) + contribution;
+            invested += contribution;
         }
 
         const interest = accumulated - invested;
@@ -105,13 +117,16 @@ function calculateCompoundInterest() {
         accumulatedData.push(accumulated);
         investedData.push(invested);
         interestData.push(interest);
+        realData.push(accumulated / Math.pow(1 + monthlyInflation, month));
     }
 
     return {
         labels,
         accumulatedData,
         investedData,
-        interestData
+        interestData,
+        realData,
+        hasInflation: inflation > 0
     };
 }
 
@@ -125,6 +140,10 @@ function updateChart() {
     totalInvestedEl.textContent = formatCurrency(data.investedData[lastIndex]);
     totalInterestEl.textContent = formatCurrency(data.interestData[lastIndex]);
     finalAmountEl.textContent = formatCurrency(data.accumulatedData[lastIndex]);
+    finalAmountRealEl.textContent = formatCurrency(data.realData[lastIndex]);
+    finalAmountRealRow.hidden = !data.hasInflation;
+
+    const realSeries = data.hasInflation ? data.realData : [];
 
     if (chart) {
         // Update existing chart
@@ -132,6 +151,7 @@ function updateChart() {
         chart.data.datasets[0].data = data.accumulatedData;
         chart.data.datasets[1].data = data.investedData;
         chart.data.datasets[2].data = data.interestData;
+        chart.data.datasets[3].data = realSeries;
         chart.update();
     } else {
         // Create new chart
@@ -168,6 +188,18 @@ function updateChart() {
                         borderColor: '#f39c12',
                         backgroundColor: 'rgba(243, 156, 18, 0.1)',
                         borderWidth: 3,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 0,
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: "Accumulated (today's money)",
+                        data: realSeries,
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        borderWidth: 3,
+                        borderDash: [6, 4],
                         fill: false,
                         tension: 0.1,
                         pointRadius: 0,
@@ -275,12 +307,13 @@ moneyInputs.forEach(input => {
 });
 
 // Event listeners for other inputs
-[interestRateInput, periodInput].forEach(input => {
+[interestRateInput, periodInput, inflationRateInput].forEach(input => {
     input.addEventListener('input', updateChart);
 });
 
 rateTypeSelect.addEventListener('change', updateChart);
 periodTypeSelect.addEventListener('change', updateChart);
+adjustContributionsInput.addEventListener('change', updateChart);
 
 // Initial calculation
 updateChart();
