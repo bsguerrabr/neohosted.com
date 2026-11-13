@@ -176,7 +176,8 @@ h1 {
     position: relative;
     width: 16px;
     height: 16px;
-    margin: 0;
+    /* Room for the focus ring: .form-section's overflow clips anything left of its edge */
+    margin: 0 0 0 4px;
     border: 2px solid #3d4550;
     border-radius: 4px;
     background: #252b34;
