@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="interestRate">Interest Rate (%)</label>
+                    <label for="interestRate">Interest Rate (%) <span class="info" title="Enter a nominal rate and set inflation, or enter a real rate and leave inflation at 0." aria-label="Enter a nominal rate and set inflation, or enter a real rate and leave inflation at 0." role="img">ⓘ</span></label>
                     <div class="input-with-select">
                         <input type="number" id="interestRate" value="10" min="0" step="0.1">
                         <select id="rateType">
@@ -53,7 +53,6 @@
                             <option value="monthly">Monthly</option>
                         </select>
                     </div>
-                    <small class="hint">Enter a nominal rate and set inflation, or enter a real rate and leave inflation at 0.</small>
                 </div>
 
                 <div class="form-group">
@@ -76,32 +75,33 @@
                     </div>
                 </div>
 
-                <div class="results">
-                    <div class="result-item">
-                        <span class="result-label">Total Invested:</span>
-                        <span class="result-value" id="totalInvested">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total Interest:</span>
-                        <span class="result-value" id="totalInterest">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Final Amount:</span>
-                        <span class="result-value" id="finalAmount">-</span>
-                    </div>
-                    <div class="result-item" id="finalAmountRealRow" hidden>
-                        <span class="result-label">Final Amount (today's money):</span>
-                        <span class="result-value" id="finalAmountReal">-</span>
-                    </div>
-                </div>
-
                 <div class="paypal-donate">
                     <a href="https://coindrop.to/bsguerrabr" target="_blank"><img src="donate_button.png" alt="Please don't buy me a coffee" style="max-width:100%;height:auto;border-radius:6px;" /></a>
                 </div>
             </div>
 
             <div class="chart-section">
-                <canvas id="chart"></canvas>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-label">Total Invested</span>
+                        <span class="stat-value" id="totalInvested">-</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Total Interest</span>
+                        <span class="stat-value" id="totalInterest">-</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Final Amount</span>
+                        <span class="stat-value" id="finalAmount">-</span>
+                    </div>
+                    <div class="stat" id="finalAmountRealRow" hidden>
+                        <span class="stat-label">Final Amount (today's money)</span>
+                        <span class="stat-value" id="finalAmountReal">-</span>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="chart"></canvas>
+                </div>
             </div>
         </div>
     </div>

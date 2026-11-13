@@ -64,10 +64,50 @@ h1 {
 
 .chart-section {
     flex: 1;
+    min-width: 0;
     min-height: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    background: #252b34;
+    border: 1px solid #2f3640;
+    border-radius: 8px;
+}
+
+.stat[hidden] {
+    display: none;
+}
+
+.stat-label {
+    color: #8b949e;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #58a6ff;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    width: 100%;
 }
 
 .form-group {
@@ -106,12 +146,11 @@ h1 {
     color: #6b7280;
 }
 
-.hint {
-    display: block;
-    margin-top: 4px;
+.info {
     color: #6b7280;
-    font-size: 0.75rem;
-    line-height: 1.3;
+    font-size: 0.85rem;
+    font-weight: 400;
+    cursor: help;
 }
 
 .form-group .checkbox-label {
@@ -129,10 +168,6 @@ h1 {
 .checkbox-label input {
     accent-color: #3498db;
     cursor: pointer;
-}
-
-.result-item[hidden] {
-    display: none;
 }
 
 .input-with-select {
@@ -164,36 +199,6 @@ h1 {
 .input-with-select select option {
     background: #252b34;
     color: #e7e9ea;
-}
-
-.results {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 2px solid #2f3640;
-}
-
-.result-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #2f3640;
-}
-
-.result-item:last-child {
-    border-bottom: none;
-}
-
-.result-label {
-    color: #8b949e;
-    font-weight: 500;
-    font-size: 0.85rem;
-}
-
-.result-value {
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: #58a6ff;
 }
 
 #chart {
@@ -246,6 +251,10 @@ h1 {
     }
 
     .chart-section {
+        min-height: 350px;
+    }
+
+    .chart-wrapper {
         min-height: 350px;
     }
 }
