@@ -167,19 +167,47 @@ h1 {
     cursor: pointer;
 }
 
+/* Custom-drawn checkbox: the native one is painted separately from the
+   CSS outline and drifts out of alignment at fractional display scaling */
 .checkbox-label input {
+    appearance: none;
+    -webkit-appearance: none;
     flex: 0 0 auto;
-    width: 14px;
-    height: 14px;
+    position: relative;
+    width: 16px;
+    height: 16px;
     margin: 0;
-    accent-color: #3498db;
+    border: 2px solid #3d4550;
+    border-radius: 4px;
+    background: #252b34;
     cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.checkbox-label input:hover {
+    border-color: #58a6ff;
+}
+
+.checkbox-label input:checked {
+    background: #3498db;
+    border-color: #3498db;
+}
+
+.checkbox-label input:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .checkbox-label input:focus-visible {
-    outline: 2px solid #3498db;
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 2px #1a1f26, 0 0 0 4px #3498db;
 }
 
 .input-with-select {
