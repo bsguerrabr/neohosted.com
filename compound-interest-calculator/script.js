@@ -220,6 +220,8 @@ function updateChart() {
                         labels: {
                             usePointStyle: true,
                             padding: 20,
+                            // Hide legend entries for empty series (e.g. today's money when inflation is 0)
+                            filter: (item, chartData) => chartData.datasets[item.datasetIndex].data.length > 0,
                             color: '#e7e9ea',
                             font: {
                                 size: 12,
