@@ -17,6 +17,10 @@ const finalAmountRealRow = document.getElementById('finalAmountRealRow');
 // Chart instance
 let chart = null;
 
+// Legend position for each dataset index
+// (0: Accumulated Total, 1: Total Invested, 2: Total Interest, 3: Accumulated Total (today's money))
+const LEGEND_ORDER = [2, 0, 1, 3];
+
 // Format number as currency (with $ symbol)
 function formatCurrency(value) {
     return new Intl.NumberFormat('en-US', {
@@ -194,7 +198,7 @@ function updateChart() {
                         pointHoverRadius: 5
                     },
                     {
-                        label: "Accumulated (today's money)",
+                        label: "Accumulated Total (today's money)",
                         data: realSeries,
                         borderColor: '#2ecc71',
                         backgroundColor: 'rgba(46, 204, 113, 0.1)',
@@ -222,6 +226,8 @@ function updateChart() {
                             padding: 20,
                             // Hide legend entries for empty series (e.g. today's money when inflation is 0)
                             filter: (item, chartData) => chartData.datasets[item.datasetIndex].data.length > 0,
+                            // Display order: Invested, Interest, Accumulated, Accumulated (today's money)
+                            sort: (a, b) => LEGEND_ORDER[a.datasetIndex] - LEGEND_ORDER[b.datasetIndex],
                             color: '#e7e9ea',
                             font: {
                                 size: 12,
