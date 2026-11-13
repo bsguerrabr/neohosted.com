@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="interestRate">Interest Rate (%) <span class="info" title="Enter a nominal rate and set inflation, or enter a real rate and leave inflation at 0." aria-label="Enter a nominal rate and set inflation, or enter a real rate and leave inflation at 0." role="img">ⓘ</span></label>
+                    <label for="interestRate">Interest Rate (%) <span class="info" title="Enter a nominal rate and set inflation (~3% is the long-term US average), or enter a real rate and set inflation to 0." aria-label="Enter a nominal rate and set inflation (~3% is the long-term US average), or enter a real rate and set inflation to 0." role="img">ⓘ</span></label>
                     <div class="input-with-select">
                         <input type="number" id="interestRate" value="10" min="0" step="0.1">
                         <select id="rateType">
@@ -57,7 +57,7 @@
 
                 <div class="form-group">
                     <label for="inflationRate">Annual Inflation (%)</label>
-                    <input type="number" id="inflationRate" value="0" min="0" step="0.1">
+                    <input type="number" id="inflationRate" value="3" min="0" step="0.1">
                     <label class="checkbox-label" for="adjustContributions">
                         <input type="checkbox" id="adjustContributions">
                         Increase contributions with inflation
