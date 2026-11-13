@@ -282,6 +282,14 @@ h1 {
 
 /* Responsive */
 @media (max-width: 900px) {
+    /* Page scrolls on mobile: keep the home link in the flow so it scrolls away
+       instead of floating over the form */
+    .home-link {
+        position: static;
+        display: inline-block;
+        margin: 16px 0 0 15px;
+    }
+
     .calculator {
         flex-direction: column;
     }
