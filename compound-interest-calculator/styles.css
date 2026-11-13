@@ -157,18 +157,29 @@ h1 {
 .form-group .checkbox-label {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     margin-top: 6px;
     margin-bottom: 0;
     font-weight: 500;
     font-size: 0.8rem;
+    line-height: 1;
     color: #8b949e;
     cursor: pointer;
 }
 
 .checkbox-label input {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin: 0;
     accent-color: #3498db;
     cursor: pointer;
+}
+
+.checkbox-label input:focus-visible {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 .input-with-select {
